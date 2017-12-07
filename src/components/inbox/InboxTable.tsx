@@ -3,26 +3,31 @@ import { Button, } from "react-bootstrap"
 //import { OtherComponent } from "./OtherComponent"
 import { RegistrationTable } from "./RegistrationTable"
 import { RegistrationModal } from "./RegistrationModal"
+import { Student } from "../domain/Student"
 
-interface InboxTableState{
+interface InboxTableProps {
+    students: Array<Student>;
+}
+
+interface InboxTableState {
     registrationModalShow: boolean;
 }
 
-export class InboxTable extends React.Component<{}, InboxTableState>
+export class InboxTable extends React.Component<InboxTableProps, InboxTableState>
 {
     constructor(props: any) {
         super(props)
         this.handleNewRegistration = this.handleNewRegistration.bind(this);
         this.hideRegistration = this.hideRegistration.bind(this);
-        this.state = { registrationModalShow : false}
+        this.state = { registrationModalShow: false }
     }
 
     private handleNewRegistration(e: any): void {
-        this.setState({registrationModalShow : true});
+        this.setState({ registrationModalShow: true });
     }
 
-    private hideRegistration():void {
-        this.setState({registrationModalShow : false});
+    private hideRegistration(): void {
+        this.setState({ registrationModalShow: false });
     }
 
     render() {
@@ -47,26 +52,25 @@ export class InboxTable extends React.Component<{}, InboxTableState>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td> Kun Ei Kang </td>
-                                <td> 10445 </td>
-                                <td>
-                                    <RegistrationTable />
-                                </td>
-                                <td>
-                                    <Button onClick={this.handleNewRegistration}>New</Button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td> Anathan </td>
-                                <td> 10446 </td>
-                                <td>
-                                    <RegistrationTable />
-                                </td>
-                                <td>
-                                <Button onClick={this.handleNewRegistration}>New</Button>
-                                </td>
-                            </tr>
+                        {
+                            this.props.students.map(
+                                student => {
+                                    return (
+                                        <tr>
+                                            <td> {student.name} </td>
+                                            <td> {student.id} </td>
+                                            <td>
+                                                <RegistrationTable registrations={student.registrations} />
+                                            </td>
+                                            <td>
+                                                <Button onClick={this.handleNewRegistration}>New</Button>
+                                            </td>
+                                        </tr>
+                                    );
+                                }
+                            )
+                        }
+                            
                         </tbody>
                     </table>
                 </div>

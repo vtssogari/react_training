@@ -3,8 +3,14 @@ import * as React from 'react';
 //import { OtherComponent } from "./OtherComponent"
 import {InboxPagination} from "./InboxPagination"
 import {InboxTable} from "./InboxTable"
+import {Student} from "../domain/Student"
 
-export class Inbox extends React.Component<{}, {}>
+export interface InboxProps{
+  students:Array<Student>;
+  headerName?: string;
+}
+
+export class Inbox extends React.Component<InboxProps, {}>
 {
   constructor(props: any) {
     super(props)
@@ -19,10 +25,10 @@ export class Inbox extends React.Component<{}, {}>
   render() {
     return (
     <div>
-        <h1>Student Registration</h1>
+        <h1> {this.props.headerName?  this.props.headerName + ' Registration'  : 'Student Registration'} </h1>
         <hr/>
         <InboxPagination />
-        <InboxTable />
+        <InboxTable students={this.props.students} />
     </div>
     );
 
